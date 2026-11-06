@@ -2,49 +2,35 @@ import { User } from './user.js';
 
 class SignIn {
     constructor() {
-        // Inicialización de elementos del DOM
-        this.form = document.getElementById('loginForm');
-        this.emailInput = document.getElementById('email');
-        this.passwordInput = document.getElementById('password');
-        this.passwordToggle = document.getElementById('passwordToggle');
-        this.submitButton = this.form ? this.form.querySelector('.login-btn') : null;
-        this.cancelButton = document.getElementById('cancelBtn');
-        this.signUpLink = document.getElementById('signUpLink');
-        
-        this.emailError = document.getElementById('emailError');
-        this.passwordError = document.getElementById('passwordError');
+    // Inicialización de elementos del DOM
+    this.form = document.getElementById('loginForm');
+    this.emailInput = document.getElementById('email');
+    this.passwordInput = document.getElementById('password');
+    this.passwordToggle = document.getElementById('passwordToggle');
+    this.submitButton = this.form?.querySelector('.login-btn');
+    this.cancelButton = document.getElementById('cancelBtn');
+    this.signUpLink = document.getElementById('signUpLink');
 
-        // Registro de Event Listeners
-        if (this.form) {
-            this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-        }
+    this.emailError = document.getElementById('emailError');
+    this.passwordError = document.getElementById('passwordError');
 
-        if (this.emailInput) {
-            this.emailInput.addEventListener('click', (e) => this.setActiveBackground(e));
-            this.emailInput.addEventListener('focus', (e) => this.setActiveBackground(e));
-            this.emailInput.addEventListener('blur', () => this.validateEmail());
-            this.emailInput.addEventListener('input', () => this.clearError('email'));
-        }
+    // Registro de Event Listeners
+    this.form?.addEventListener('submit', (e) => this.handleSubmit(e));
 
-        if (this.passwordInput) {
-            this.passwordInput.addEventListener('click', (e) => this.setActiveBackground(e));
-            this.passwordInput.addEventListener('focus', (e) => this.setActiveBackground(e));
-            this.passwordInput.addEventListener('blur', () => this.validatePassword());
-            this.passwordInput.addEventListener('input', () => this.clearError('password'));
-        }
+    this.emailInput?.addEventListener('click', (e) => this.setActiveBackground(e));
+    this.emailInput?.addEventListener('focus', (e) => this.setActiveBackground(e));
+    this.emailInput?.addEventListener('blur', () => this.validateEmail());
+    this.emailInput?.addEventListener('input', () => this.clearError('email'));
 
-        if (this.passwordToggle) {
-            this.passwordToggle.addEventListener('click', (e) => this.togglePassword(e));
-        }
+    this.passwordInput?.addEventListener('click', (e) => this.setActiveBackground(e));
+    this.passwordInput?.addEventListener('focus', (e) => this.setActiveBackground(e));
+    this.passwordInput?.addEventListener('blur', () => this.validatePassword());
+    this.passwordInput?.addEventListener('input', () => this.clearError('password'));
 
-        if (this.cancelButton) {
-            this.cancelButton.addEventListener('click', (e) => this.handleCancel(e));
-        }
-
-        if (this.signUpLink) {
-            this.signUpLink.addEventListener('click', (e) => this.handleSignUp(e));
-        }
-    }
+    this.passwordToggle?.addEventListener('click', (e) => this.togglePassword(e));
+    this.cancelButton?.addEventListener('click', (e) => this.handleCancel(e));
+    this.signUpLink?.addEventListener('click', (e) => this.handleSignUp(e));
+}
 
     // Patrón visual: cambia el fondo a blanco (#ffffff) al activar
     setActiveBackground(e) {
