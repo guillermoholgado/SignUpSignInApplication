@@ -15,7 +15,7 @@ class SignUpController {
         
         this.toggles = document.querySelectorAll('.toggle-password');
         this.submitButton = this.form.querySelector('button[type="submit"], input[type="submit"]');
-        this.originalButtonText = this.submitButton.textContent;
+        this.originalButtonText = this.submitButton ? this.submitButton.textContent : 'Sign up';
 
         // Escuchar el envío del formulario
         this.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
@@ -29,22 +29,24 @@ class SignUpController {
         ];
 
         allInputs.forEach(input => {
-            input.addEventListener('focus', (e) => this.setActiveBackground(e));
-            input.addEventListener('input', () => this.clearError(input));
+            if (input) {
+                input.addEventListener('focus', (e) => this.setActiveBackground(e));
+                input.addEventListener('input', () => this.clearError(input));
+            }
         });
 
         // Eventos de PÉRDIDA DE FOCO (Blur)
-        this.firstNameInput.addEventListener('blur', () => this.validateFirstName());
-        this.middleInitialInput.addEventListener('blur', () => this.validateMiddleInitial());
-        this.lastNameInput.addEventListener('blur', () => this.validateLastName());
-        this.streetAddressInput.addEventListener('blur', () => this.validateStreetAddress());
-        this.cityInput.addEventListener('blur', () => this.validateCity());
-        this.stateInput.addEventListener('blur', () => this.validateState());
-        this.zipCodeInput.addEventListener('blur', () => this.validateZipCode());
-        this.phoneInput.addEventListener('blur', () => this.validatePhone());
-        this.emailInput.addEventListener('blur', () => this.validateEmail());
-        this.passwordInput.addEventListener('blur', () => this.validatePassword());
-        this.confirmPasswordInput.addEventListener('blur', () => this.validateConfirmPassword());
+        if (this.firstNameInput) this.firstNameInput.addEventListener('blur', () => this.validateFirstName());
+        if (this.middleInitialInput) this.middleInitialInput.addEventListener('blur', () => this.validateMiddleInitial());
+        if (this.lastNameInput) this.lastNameInput.addEventListener('blur', () => this.validateLastName());
+        if (this.streetAddressInput) this.streetAddressInput.addEventListener('blur', () => this.validateStreetAddress());
+        if (this.cityInput) this.cityInput.addEventListener('blur', () => this.validateCity());
+        if (this.stateInput) this.stateInput.addEventListener('blur', () => this.validateState());
+        if (this.zipCodeInput) this.zipCodeInput.addEventListener('blur', () => this.validateZipCode());
+        if (this.phoneInput) this.phoneInput.addEventListener('blur', () => this.validatePhone());
+        if (this.emailInput) this.emailInput.addEventListener('blur', () => this.validateEmail());
+        if (this.passwordInput) this.passwordInput.addEventListener('blur', () => this.validatePassword());
+        if (this.confirmPasswordInput) this.confirmPasswordInput.addEventListener('blur', () => this.validateConfirmPassword());
 
         // Mostrar/Ocultar contraseñas (Ojos)
         this.toggles.forEach(toggle => {
@@ -69,6 +71,7 @@ class SignUpController {
         const parentContainer = targetElement.parentNode;
         if (!parentContainer) return;
         
+        // Evitar duplicados eliminando el error previo de este campo
         const existingError = parentContainer.querySelector(`[data-error-for="${inputElement.id}"]`);
         if (existingError) {
             existingError.remove();
@@ -106,7 +109,6 @@ class SignUpController {
     async handleFormSubmit(e) {
         e.preventDefault();
 
-        // 1. Validar todos los campos antes de enviar
         this.validateFirstName();
         this.validateMiddleInitial();
         this.validateLastName();
@@ -119,7 +121,6 @@ class SignUpController {
         this.validatePassword();
         this.validateConfirmPassword();
 
-        // 2. Si hay error: muestra mensaje y cancela envío
         const errors = this.form.querySelectorAll('.error-message');
         if (errors.length > 0) {
             return;
@@ -138,7 +139,6 @@ class SignUpController {
             password: this.passwordInput.value.trim()
         };
 
-        // 3. Bloquear botón mientras procesa
         if (this.submitButton) {
             this.submitButton.disabled = true;
         }
@@ -152,7 +152,6 @@ class SignUpController {
                 body: JSON.stringify(formData)
             });
 
-            // Leer la respuesta del servidor como texto para analizar el error
             let responseText = "";
             try {
                 responseText = await response.text();
@@ -160,36 +159,30 @@ class SignUpController {
                 responseText = "";
             }
 
-            // CASO ÉXITO: HTTP 204 (o cualquier rango 200-299 que no sea error)
+            // CASO ÉXITO: HTTP 204
             if (response.status === 204 || response.ok) {
-                alert('User created successfully');
+                alert('Usuario creado correctamente');
                 window.location.href = 'page1.html';
                 return;
             }
 
-            // CASO ERROR 500
+            // CASO ERROR 500 (MySQL, GlassFish o Usuario duplicado)
             if (response.status === 500) {
-                // Evaluamos si el texto del servidor indica que el usuario ya existe o duplicado
                 const lowerText = responseText.toLowerCase();
                 if (lowerText.includes('exist') || lowerText.includes('duplicate') || lowerText.includes('ya existe')) {
-                    alert("User already exists");
+                    alert("El usuario ya existe");
                 } else {
-                    // Si es un 500 genérico, significa que MySQL o GlassFish fallaron / están detenidos
-                    alert("Server Error: Please try again later or contact Customer Support");
+                    alert("Error del servidor: GlassFish o MySQL no están disponibles.");
                 }
                 return;
             }
 
-            // Cualquier otro código de error inesperado
-            throw new Error("Server Error");
+            throw new Error("Error del servidor.");
 
         } catch (error) {
             console.error("Error en la petición:", error);
-            // Si la conexión fetch falla por completo (ej. GlassFish está apagado y ni siquiera responde HTTP)
-            alert("Server Error: Please try again later or contact Customer Support");
-
+            alert("Error del servidor: GlassFish o MySQL no están disponibles.");
         } finally {
-            // Restaurar el botón al terminar
             if (this.submitButton) {
                 this.submitButton.disabled = false;
                 this.submitButton.textContent = this.originalButtonText;
@@ -197,7 +190,7 @@ class SignUpController {
         }
     }
 
-    // VALIDACIONES ESPECÍFICAS POR CAMPO (BLUR)
+    // VALIDACIONES ESPECÍFICAS
     validateFirstName() {
         const regex = /^[A-Za-z\s]+$/;
         const val = this.firstNameInput.value.trim();
@@ -282,7 +275,7 @@ class SignUpController {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const val = this.emailInput.value.trim();
         if (!regex.test(val)) {
-            this.showFieldError(this.emailInput, '(*) Enter a valid email address  (e.g. user@example.com)\n(*) Do not enter spaces or invalid characters.');
+            this.showFieldError(this.emailInput, '(*) Enter a valid email address (e.g. user@example.com)\n(*) Do not enter spaces or invalid characters.');
         } else {
             this.clearError(this.emailInput);
         }
@@ -316,12 +309,22 @@ class SignUpController {
     }
 
     togglePassword(e) {
-        const container = e.currentTarget.closest('.password-container');
-        const input = container ? container.querySelector('input') : null;
-        if (input) {
-            input.type = input.type === 'password' ? 'text' : 'password';
+    const container = e.currentTarget.closest('.password-container');
+    const input = container ? container.querySelector('input') : null;
+    const slashLine = container ? container.querySelector('.eye-slash-line') : null;
+
+    if (input) {
+        const isHidden = input.type === 'password';
+        
+        // Cambia entre visible ('text') y oculta ('password')
+        input.type = isHidden ? 'text' : 'password';
+
+        // Muestra u oculta la línea tachada del SVG
+        if (slashLine) {
+            slashLine.style.display = isHidden ? 'none' : 'inline';
         }
     }
+}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
