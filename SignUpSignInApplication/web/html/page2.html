@@ -15,7 +15,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
   <link rel="preload" as="style" href="/SignUpSignInApplication/html/assets/mobirise/css/mbr-additional.css?v=d8KIZF"><link rel="stylesheet" href="/SignUpSignInApplication/html/assets/mobirise/css/mbr-additional.css?v=d8KIZF" type="text/css">
-  <link rel="stylesheet" href="/SignUpSignInApplication/html/assets/bootstrap/css/bootstrap.min.css" type="text/css"/>
+  <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" type="text/css"/>
 
 </head>
 <body>
@@ -33,7 +33,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
-                <form action="https://mobirise.eu/" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name">
+                <form method="POST" action="/SignUpSignInApplication/webresources/entities.user" class="mbr-form form-with-styler" novalidate>
                     <input type="hidden" name="email" data-form-email="true" value="WSQIJIXZmOnJufHX87qqVFKUFbRG49z7syk4g7oqbLlZdofdMYrEIXScDH+AFMvdhDLFFONIwC4LUkiAOl4JwdcKebxrZ/TnSB3g3IArDHCasrCUUtjKW6y1Ejpx946Z">
                     
                     <div class="row">
@@ -107,12 +107,12 @@
 
                         <!-- Botón de Envío -->
                         <div class="col-lg-12 col-md-12 col-sm-12 align-center mbr-section-btn">
-                            <a  class="btn btn-primary display-7" href="/SignUpSignInApplication/html/page4.html">Sign up<br></a>
+                            <button type="submit" class="btn btn-primary display-7">Sign up</button>
                         </div>
 
                         <!-- Enlace para Sign In -->
                         <div class="col-12 text-center mt-3">
-                            <p class="mbr-fonts-style display-7 text-black">
+                            <p class="mbr-fonts-style display-7">
                                 Already have an account? <a href="/SignUpSignInApplication/html/page1.html" class="text-primary">Sign in</a>
                             </p>
                         </div>
@@ -126,7 +126,8 @@
   <script src="/SignUpSignInApplication/html/assets/bootstrap/js/bootstrap.bundle.min.js"></script>  
   <script src="/SignUpSignInApplication/html/assets/smoothscroll/smooth-scroll.js"></script>  
   <script src="/SignUpSignInApplication/html/assets/ytplayer/index.js"></script>  
-  <script src="/SignUpSignInApplication/html/assets/theme/js/script.js"></script>  
-  <script src="/SignUpSignInApplication/html/assets/formoid/formoid.min.js"></script>  
+  <script src="/SignUpSignInApplication/html/assets/theme/js/script.js"></script>   
+  <!-- ENLACE AL CONTROLADOR -->
+  <script src="../js/SignUp.js"></script>
 </body>
 </html>
