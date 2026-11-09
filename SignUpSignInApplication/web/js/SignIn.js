@@ -72,20 +72,20 @@ class SignIn {
         }
     }
 
-    // Control del icono del ojo para ver / ocultar la contraseña
-    togglePassword(e) {
-        if (this.passwordInput) {
-            const type = this.passwordInput.type === 'password' ? 'text' : 'password';
-            this.passwordInput.type = type;
-            
-            const icon = e.currentTarget;
-            if (icon) {
-                icon.classList.toggle('fa-eye');
-                icon.classList.toggle('fa-eye-slash');
-            }
-        }
+   
+   // Control del icono del ojo para ver / ocultar la contraseña
+    togglePassword() {
+    if (!this.passwordInput) return;
+    const isHidden = this.passwordInput.type === 'password';
+    // Cambia el input: oculta visible, visible oculta
+    this.passwordInput.type = isHidden ? 'text' : 'password';
+    // Si estaba oculta quita la línea (se ve la contraseña)
+    // Si estaba visible pone la línea (se oculta la contraseña)
+    const slash = document.getElementById('eyeSlash');
+    if (slash) {
+        slash.style.display = isHidden ? 'none' : 'inline';
     }
-
+}
     // Validación de email
     validateEmail() {
         try {
