@@ -119,24 +119,25 @@ export class ChangePasswordController {
             const url = '/SignUpSignInApplication/webresources/entities.user/';
 
             // JSON object with the data to send in the request body
-            const user = new User ( 
-                102263301,
-                10032,
-                "15556969699",
-                "New York",
-                "jsmith@enterprise.net",
-                "John",
-                "Smith",
-                "S.",
-                newPass,
-                "New York",
-                "163rd St."
+             const user = new User ( 
+                sessionStorage.getItem("user.id"),
+                sessionStorage.getItem("user.zip"),
+                sessionStorage.getItem("user.phone"),
+                sessionStorage.getItem("user.city"),
+                sessionStorage.getItem("user.email"),
+                sessionStorage.getItem("user.firstName"),
+                sessionStorage.getItem("user.lastName"),
+                sessionStorage.getItem("user.middleInitial"),
+                sessionStorage.getItem("user.password"),
+                sessionStorage.getItem("user.state"),
+                sessionStorage.getItem("user.street")
             );
             
-            const currentRealPassword = sessionStorage.getItem("user.password");
-            if (currentPass !== currentRealPassword) {
+           //const user = User.fromJSON(sessionStorage.getItem("user"));
+            if (currentPass !== user.password) {
                 throw new Error('Current password is incorrect.');
             }
+            user.password = newPass;
             const response = await fetch(url+user.id, {
                 method: 'PUT',
                 headers: {
@@ -146,8 +147,7 @@ export class ChangePasswordController {
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || `Server response error: ${response.status}`);
+                throw new Error();
             }
 
             this.showFeedback('Password changed successfully!', 'success');
