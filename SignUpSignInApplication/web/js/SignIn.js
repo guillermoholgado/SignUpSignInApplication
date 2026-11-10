@@ -38,6 +38,8 @@ class SignIn {
         this.clearError(e.target.id === 'email' ? 'email' : 'password');
     }
 
+    // Muestra un mensaje de error en rojo debajo del campo indicado ('email' o 'password')
+    // y marca el borde del input en rojo. Acepta un texto o un objeto Error.
     showError(field, error) {
         const message = error instanceof Error ? error.message : error;
 
@@ -62,6 +64,9 @@ class SignIn {
         }
     }
 
+    // Oculta el mensaje de error del campo indicado ('email' o 'password')
+    // y quita el borde rojo del input.
+    
     clearError(field) {
         if (field === 'email') {
             if (this.emailError) this.emailError.style.display = 'none';
@@ -72,20 +77,20 @@ class SignIn {
         }
     }
 
-    // Control del icono del ojo para ver / ocultar la contraseña
-    togglePassword(e) {
-        if (this.passwordInput) {
-            const type = this.passwordInput.type === 'password' ? 'text' : 'password';
-            this.passwordInput.type = type;
-            
-            const icon = e.currentTarget;
-            if (icon) {
-                icon.classList.toggle('fa-eye');
-                icon.classList.toggle('fa-eye-slash');
-            }
-        }
+   
+   // Control del icono del ojo para ver / ocultar la contraseña
+    togglePassword() {
+    if (!this.passwordInput) return;
+    const isHidden = this.passwordInput.type === 'password';
+    // Cambia el input: oculta visible, visible oculta
+    this.passwordInput.type = isHidden ? 'text' : 'password';
+    // Si estaba oculta quita la línea (se ve la contraseña)
+    // Si estaba visible pone la línea (se oculta la contraseña)
+    const slash = document.getElementById('eyeSlash');
+    if (slash) {
+        slash.style.display = isHidden ? 'none' : 'inline';
     }
-
+}
     // Validación de email
     validateEmail() {
         try {
@@ -122,8 +127,10 @@ class SignIn {
         }
     }
 
-    // Método handleSubmit actualizado con el mensaje de error personalizado
-async handleSubmit(e) {
+    // Se ejecuta al pulsar "Sign In": valida el formulario, busca el usuario
+    // en la BD y, si las credenciales son correctas, lo guarda en sesión y redirige
+    
+    async handleSubmit(e) {
     e.preventDefault();
 
     const isEmailValid = this.validateEmail();
@@ -133,6 +140,7 @@ async handleSubmit(e) {
         return; // Detiene el flujo si hay errores de formato
     }
 
+    // Crea un User con el email y la contraseña introducidos para compararlos con la BD
     const user = new User(
         null, null, null, null,
         this.emailInput.value.trim(),
@@ -142,6 +150,7 @@ async handleSubmit(e) {
     );
 
     try {
+        // Pide al backend la lista de todos los usuarios en formato JSON
         const response = await fetch('/SignUpSignInApplication/webresources/entities.user', {
             method: 'GET',
             headers: { 'Accept': 'application/json' }
@@ -149,22 +158,28 @@ async handleSubmit(e) {
 
         if (!response.ok) {
             // El servidor ha respondido con error (no ha devuelto la lista)
-            throw new Error('Error del servidor. Por favor, inténtalo de nuevo más tarde.');
+            throw new Error('(*) Server error. Please try again later or contact Customer Support (CAW).');
         }
 
-        // Lista de todos los usuarios de la base de datos
+        // Convierte la respuesta en la lista de usuarios de la base de datos
         const data = await response.json();
+        // Si solo hay un usuario, el servidor puede devolver un objeto en vez de una lista
         const users = Array.isArray(data) ? data : [data];
 
         // Buscar un usuario con el mismo email y la misma contraseña
         const found = users.find(u =>
             u.email === user.email && u.password === user.password
         );
-
+        
+        // Si no hay coincidencia, las credenciales son incorrectas
         if (!found) {
-            throw new Error('Las credenciales no son correctas o el usuario no está registrado.');
+            throw new Error('The credentials are incorrect or the user is not registered.');
         }
-
+        
+        
+        // Convierte el usuario encontrado en un objeto de la clase User
+        // Guarda cada dato del usuario por separado en la sesión
+        // (?? "" evita que los campos vacíos se guarden como el texto "null")
         const loggedUser = User.fromJSON(found);
         sessionStorage.setItem("user.id", loggedUser.id);
         sessionStorage.setItem("user.email", loggedUser.email);
@@ -180,6 +195,8 @@ async handleSubmit(e) {
 
         // Guarda también el usuario completo en una sola clave
         sessionStorage.setItem("user", JSON.stringify(loggedUser));
+        
+        // Login correcto: redirige a la página principal
         window.location.href = 'page4.html';
         
     } catch (error) {
@@ -188,12 +205,14 @@ async handleSubmit(e) {
     }
 }
 
-
+    // Botón Cancel: vuelve a la página de inicio (index.html)
     handleCancel(e) {
+        // Evita la navegación por defecto del enlace para controlarla desde JS
         e.preventDefault();
         window.location.href = 'index.html';
     }
-
+    
+    // Enlace "Sign up": va a la página de registro (page2.html)
     handleSignUp(e) {
         e.preventDefault();
         window.location.href = 'page2.html';
