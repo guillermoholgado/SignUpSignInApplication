@@ -45,8 +45,8 @@ public class User implements Serializable {
     @Column(name = "zip")
     private Integer zip;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     @Column(name = "phone")
     private BigInteger phone;

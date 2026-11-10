@@ -15,7 +15,7 @@
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
   <link rel="preload" as="style" href="/SignUpSignInApplication/html/assets/mobirise/css/mbr-additional.css?v=d8KIZF"><link rel="stylesheet" href="/SignUpSignInApplication/html/assets/mobirise/css/mbr-additional.css?v=d8KIZF" type="text/css">
-  <link rel="stylesheet" href="/SignUpSignInApplication/html/assets/bootstrap/css/bootstrap.min.css" type="text/css"/>
+  <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" type="text/css"/>
 
 </head>
 <body>
@@ -33,7 +33,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8 mx-auto mbr-form" data-form-type="formoid">
-                <form action="https://mobirise.eu/" method="POST" class="mbr-form form-with-styler" data-form-title="Form Name">
+                <form method="POST" action="/SignUpSignInApplication/webresources/entities.user" class="mbr-form form-with-styler" novalidate>
                     <input type="hidden" name="email" data-form-email="true" value="WSQIJIXZmOnJufHX87qqVFKUFbRG49z7syk4g7oqbLlZdofdMYrEIXScDH+AFMvdhDLFFONIwC4LUkiAOl4JwdcKebxrZ/TnSB3g3IArDHCasrCUUtjKW6y1Ejpx946Z">
                     
                     <div class="row">
@@ -72,7 +72,7 @@
                         </div>
                         <!-- zip (Integer) -->
                         <div class="col-md-4 col-sm-12 form-group mb-3" data-for="zip">
-                            <input type="zip" name="zip" placeholder="Zip Code" data-form-field="zip" class="form-control" required id="zip-form02-8">
+                            <input type="text" name="zip" placeholder="Zip Code" data-form-field="zip" class="form-control" required id="zip-form02-8">
                         </div>
 
                         <!-- phone (bigInteger) -->
@@ -84,35 +84,41 @@
                             <input type="email" name="email" placeholder="E-mail" data-form-field="email" class="form-control" required id="email-form02-8">
                         </div>
 
-                        <!-- password -->
-                        <div class="col-md-6 col-sm-12 form-group mb-3 password-container" data-for="password">
+                        <!-- Password -->
+                        <div class="col-md-6 col-sm-12 form-group mb-3" data-for="password">
+                          <div class="password-container">
                             <input type="password" name="password" placeholder="Password" data-form-field="password" class="form-control" required id="password-form02-8">
                             <span class="toggle-password">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                </svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <line class="eye-slash-line" x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                              </svg>
                             </span>
-                        </div>
-                        <!-- Confirm Password (Doble contraseña) -->
-                        <div class="col-md-6 col-sm-12 form-group mb-3 password-container" data-for="confirmPassword">
-                            <input type="password" name="confirmPassword" placeholder="Confirm Password" data-form-field="confirmPassword" class="form-control" required id="confirmPassword-form02-8">
-                            <span class="toggle-password">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                </svg>
-                            </span>
+                          </div>
                         </div>
 
+                        <!-- Confirm Password -->
+                        <div class="col-md-6 col-sm-12 form-group mb-3" data-for="confirmPassword">
+                          <div class="password-container">
+                            <input type="password" name="confirmPassword" placeholder="Confirm Password" data-form-field="confirmPassword" class="form-control" required id="confirmPassword-form02-8">
+                            <span class="toggle-password">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <line class="eye-slash-line" x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
                         <!-- Botón de Envío -->
                         <div class="col-lg-12 col-md-12 col-sm-12 align-center mbr-section-btn">
-                            <a  class="btn btn-primary display-7" href="/SignUpSignInApplication/html/page4.html">Sign up<br></a>
+                            <button type="submit" class="btn btn-primary display-7">Sign up</button>
                         </div>
 
                         <!-- Enlace para Sign In -->
                         <div class="col-12 text-center mt-3">
-                            <p class="mbr-fonts-style display-7 text-black">
+                            <p class="mbr-fonts-style display-7">
                                 Already have an account? <a href="/SignUpSignInApplication/html/page1.html" class="text-primary">Sign in</a>
                             </p>
                         </div>
@@ -126,7 +132,8 @@
   <script src="/SignUpSignInApplication/html/assets/bootstrap/js/bootstrap.bundle.min.js"></script>  
   <script src="/SignUpSignInApplication/html/assets/smoothscroll/smooth-scroll.js"></script>  
   <script src="/SignUpSignInApplication/html/assets/ytplayer/index.js"></script>  
-  <script src="/SignUpSignInApplication/html/assets/theme/js/script.js"></script>  
-  <script src="/SignUpSignInApplication/html/assets/formoid/formoid.min.js"></script>  
+  <script src="/SignUpSignInApplication/html/assets/theme/js/script.js"></script>   
+  <!-- ENLACE AL CONTROLADOR -->
+  <script src="../js/SignUp.js"></script>
 </body>
 </html>

@@ -848,9 +848,15 @@ text-align: center;
 color: #9c98cf;
 }
 .cid-vxy2QlrAxP {
-padding-top: 6rem;
-padding-bottom: 6rem;
-background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    background-size: cover;
+    background-position: center;
 }
 .cid-vxy2QlrAxP .mbr-overlay {
 background-color: #ffffff;
@@ -878,9 +884,15 @@ color: #393193;
 color: #9c98cf;
 }
 .cid-vxy4pgHjDz {
-padding-top: 6rem;
-padding-bottom: 6rem;
-background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    background-size: cover;
+    background-position: center;
 }
 .cid-vxy4pgHjDz .mbr-overlay {
 background-color: #ffffff;
@@ -904,10 +916,19 @@ max-width: 800px;
 .cid-vxy4pgHjDz .mbr-section-title {
 color: #393193;
 }
+/* Centra el formulario de Change Password y elimina el hueco blanco inferior */
 .cid-vxy6yTPVqC {
-padding-top: 6rem;
-padding-bottom: 6rem;
-background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    height: 100vh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    background-size: cover;
+    background-position: center;
 }
 .cid-vxy6yTPVqC .mbr-overlay {
 background-color: #ffffff;
@@ -932,9 +953,32 @@ max-width: 800px;
 color: #393193;
 }
 .cid-vxyc2MhnPv {
-padding-top: 6rem;
-padding-bottom: 6rem;
-background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-image: url("../../../assets/images/gemini-generated-image-sag5ocsag5ocsag5-1306x816.jpg");
+    background-size: cover;
+    background-position: center;
+}
+/* Oculta la barra de desplazamiento y ajusta la sección al 100% de la pantalla */
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.cid-vxyc2MhnPv {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
 }
 .cid-vxyc2MhnPv img,
 .cid-vxyc2MhnPv .item-img {
@@ -943,6 +987,13 @@ height: 100%;
 height: 400px;
 object-fit: cover;
 }
+/* Oculta las flechas de navegación del carrusel (izquierda y derecha) */
+.cid-vxyc2MhnPv .embla__button--prev,
+.cid-vxyc2MhnPv .embla__button--next {
+    display: none !important;
+}
+
+
 @media (max-width: 767px) {
 .cid-vxyc2MhnPv img,
 .cid-vxyc2MhnPv .item-img {
@@ -1099,110 +1150,4 @@ max-width: 800px;
 }
 .cid-vxyc2MhnPv .mbr-section-subtitle {
 color: #9c98cf;
-}
-
-/* ---------------------------------------------------- /
-/ NUEVOS ESTILOS PARA ALINEAR Y DAR ESTILO AL BOTÓN CANCEL /
-/ ---------------------------------------------------- */
-.mbr-section-btn {
-display: inline-flex;
-gap: 12px;
-justify-content: center;
-align-items: center;
-}
-/* Contenedor y separación de los botones en los formularios */
-.mbr-section-btn {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Asegurar que se adapte perfectamente en dispositivos móviles */
-@media (max-width: 991px) {
-  .mbr-section-btn {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .mbr-section-btn .btn {
-    width: 100% !important;
-  }
-}
-/* Estilo exacto para botones en forma de píldora lavanda */
-.mbr-section-btn {
-  display: flex !important;
-  gap: 16px !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.mbr-section-btn .btn-primary {
-  background-color: #9d99d3 !important;
-  border-color: #9d99d3 !important;
-  color: #ffffff !important;
-  border-radius: 100px !important;
-  padding: 0.8rem 2.5rem !important;
-}
-
-.mbr-section-btn .btn-primary-outline {
-  background-color: transparent !important;
-  border: 2px solid #9d99d3 !important;
-  color: #9d99d3 !important;
-  border-radius: 100px !important;
-  padding: 0.8rem 2.5rem !important;
-}
-.password-container {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.password-container .form-control {
-  width: 100%;
-  padding-right: 55px !important; /* Espacio para que el texto no tape el icono */
-}
-
-.toggle-password {
-  position: absolute;
-  right: 30px;
-  cursor: pointer;
-  color: #9c98cf;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-}
-
-.toggle-password:hover {
-  color: #635db3;
-}
-.text-primary {
-color: #9c98cf !important;
-}
-.text-secondary {
-color: #ffd7ef !important;
-}
-.text-success {
-color: #3a341c !important;
-}
-.text-info {
-color: #320707 !important;
-}
-.text-warning {
-color: #a0e2e1 !important;
-}
-.text-danger {
-color: #ffea64 !important;
-}
-.text-white {
-color: #fafafa !important;
-}
-.text-black {
-color: #232323 !important;
-}
-a.text-primary:hover,
-a.text-primary:focus,
-a.text-primary.active {
-color: #5952af !important;
 }
