@@ -109,6 +109,7 @@ class SignUpController {
     async handleFormSubmit(e) {
         e.preventDefault();
 
+        // Ejecutamos todas las validaciones antes de enviar
         this.validateFirstName();
         this.validateMiddleInitial();
         this.validateLastName();
@@ -147,41 +148,38 @@ class SignUpController {
             const response = await fetch(this.form.action, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(formData)
             });
 
-            let responseText = "";
-            try {
-                responseText = await response.text();
-            } catch (err) {
-                responseText = "";
-            }
+            // Si la respuesta no es OK (!response.ok)
+            if (!response.ok) {
+                let errorText = "";
+                try {
+                    errorText = await response.text();
+                } catch (err) {
+                    errorText = "";
+                }
 
-            // CASO ÉXITO: HTTP 204
-            if (response.status === 204 || response.ok) {
-                alert('Usuario creado correctamente');
-                window.location.href = 'page1.html';
-                return;
-            }
-
-            // CASO ERROR 500 (MySQL, GlassFish o Usuario duplicado)
-            if (response.status === 500) {
-                const lowerText = responseText.toLowerCase();
-                if (lowerText.includes('exist') || lowerText.includes('duplicate') || lowerText.includes('ya existe')) {
-                    alert("El usuario ya existe");
+                // Comprobamos si el servidor indica que el usuario ya existe
+                const lowerError = errorText.toLowerCase();
+                if (lowerError.includes('exist') || lowerError.includes('duplicate') || response.status === 409) {
+                    alert("User already exists");
                 } else {
-                    alert("Error del servidor: GlassFish o MySQL no están disponibles.");
+                    alert("Server error: Please try again later or contact Customer Support.");
                 }
                 return;
             }
 
-            throw new Error("Error del servidor.");
+            // Si la respuesta es exitosa (response.ok)
+            alert('User created successfully');
+            window.location.href = 'page1.html';
 
         } catch (error) {
-            console.error("Error en la petición:", error);
-            alert("Error del servidor: GlassFish o MySQL no están disponibles.");
+            console.error("Request error:", error);
+            alert("Server error: Please try again later or contact Customer Support.");
         } finally {
             if (this.submitButton) {
                 this.submitButton.disabled = false;
@@ -189,7 +187,7 @@ class SignUpController {
             }
         }
     }
-
+   
     // VALIDACIONES ESPECÍFICAS
     validateFirstName() {
         const regex = /^[A-Za-z\s]+$/;
