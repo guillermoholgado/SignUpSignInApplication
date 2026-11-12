@@ -149,7 +149,7 @@ export class ChangePasswordController {
             if (!response.ok) {
                 throw new Error();
             }
-
+            sessionStorage.setItem("user.password", newPass);
             this.showFeedback('Password changed successfully!', 'success');
 
             setTimeout(() => {

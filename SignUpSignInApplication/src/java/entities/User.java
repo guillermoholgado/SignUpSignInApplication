@@ -46,7 +46,9 @@ public class User implements Serializable {
     private Integer zip;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Basic(optional=false)
+    @NotNull
+    @Column(name = "id")
     private Long id;
     @Column(name = "phone")
     private BigInteger phone;
