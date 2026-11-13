@@ -34,6 +34,9 @@ export class ChangePasswordController {
     }
     /**
      * Validates new password using Regular Expression (Según apuntes)
+     * @todo: Utilizar la misma expresión regular que se utiliza en SignUp para 
+     * validar el requisito de contraseña. Modificar el mensaje de error 
+     * correspondiente de acuerdo al requisito de contraseña.
      */
     validateNewPassword() {
         const password = this.newPasswordInput.value;
@@ -98,6 +101,7 @@ export class ChangePasswordController {
     /**
      * Async handles form submission
      * @param {Event} e - Submit event
+     * @todo comentar todas las sentencias de al menos esta función
      */
     async handleSubmit(e) {
         e.preventDefault();
