@@ -1,3 +1,10 @@
+/**
+ * @todo: Importar clase User del modelo de datos.Usar un objeto de la clase User para encapsular 
+ * los datos del nuevo usuario antes de registrarlo en lugar de la variable formData.
+ * @todo: Después de un signup exitoso guardar en el sessionStorage el email para que lo cargue la página de sigIn.
+ * 
+ * 
+ */
 class SignUpController {
     constructor() {
         this.form = document.querySelector('form');
