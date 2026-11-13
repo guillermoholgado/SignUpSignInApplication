@@ -1,5 +1,8 @@
 import { User } from './user.js';
-
+/**
+ * @todo: al cargar la página (evento DOMContentLoaded) comprobar si está almacenado 
+ * el email de un usuario en el sessionStorage y cargarlo en el campo email del formulario.
+ */
 class SignIn {
     constructor() {
     // Inicialización de elementos del DOM
