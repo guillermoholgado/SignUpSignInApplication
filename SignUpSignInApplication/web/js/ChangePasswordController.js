@@ -117,7 +117,7 @@ export class ChangePasswordController {
             this.showFeedback('Current password is required', 'danger');
             return;
         }
-        // Detiene el flujo si no se ha cumplido con las validaciones de la nueva contraseña y la confirmación de la misma.
+        // Detiene el flujo si no se ha cumplido con las validaciones de la nueva contraseña y la coincidencia de la misma.
         if (!this.validateNewPassword() || !this.validatePasswordMatch()) {
             return; 
         }
