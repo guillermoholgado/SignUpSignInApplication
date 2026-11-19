@@ -5,6 +5,8 @@
  * 
  * 
  */
+import { User } from './user.js'; 
+
 class SignUpController {
     constructor() {
         this.form = document.querySelector('form');
@@ -115,7 +117,7 @@ class SignUpController {
     // ENVÍO ASÍNCRONO DEL FORMULARIO
     async handleFormSubmit(e) {
         e.preventDefault();
-
+        const newUser = this.emailInput.value;
         // Ejecutamos todas las validaciones antes de enviar
         this.validateFirstName();
         this.validateMiddleInitial();
@@ -134,18 +136,19 @@ class SignUpController {
             return;
         }
 
-        const formData = {
-            firstName: this.firstNameInput.value.trim(),
-            middleInitial: this.middleInitialInput.value.trim(),
-            lastName: this.lastNameInput.value.trim(),
-            street: this.streetAddressInput.value.trim(),
-            city: this.cityInput.value.trim(),
-            state: this.stateInput.value.trim(),
-            zip: this.zipCodeInput.value.trim(),
-            phone: this.phoneInput.value.trim(),
-            email: this.emailInput.value.trim(),
-            password: this.passwordInput.value.trim()
-        };
+        const user = new User( 
+            null, // id 
+            this.zipCodeInput.value.trim(), 
+            this.phoneInput.value.trim(), 
+            this.cityInput.value.trim(), 
+            this.emailInput.value.trim(), 
+            this.firstNameInput.value.trim(),
+            this.lastNameInput.value.trim(), 
+            this.middleInitialInput.value.trim(), 
+            this.passwordInput.value.trim(), 
+            this.stateInput.value.trim(), 
+            this.streetAddressInput.value.trim() 
+        ); 
 
         if (this.submitButton) {
             this.submitButton.disabled = true;
@@ -158,7 +161,7 @@ class SignUpController {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(user)
             });
 
             // Si la respuesta no es OK (!response.ok)
@@ -182,6 +185,7 @@ class SignUpController {
 
             // Si la respuesta es exitosa (response.ok)
             alert('User created successfully');
+            sessionStorage.setItem("user.email",newUser);
             window.location.href = 'page1.html';
 
         } catch (error) {
