@@ -34,18 +34,22 @@ export class ChangePasswordController {
     }
     /**
      * Validates new password using Regular Expression (Según apuntes)
+     * @todo: Utilizar la misma expresión regular que se utiliza en SignUp para 
+     * validar el requisito de contraseña. Modificar el mensaje de error 
+     * correspondiente de acuerdo al requisito de contraseña.
      */
     validateNewPassword() {
         const password = this.newPasswordInput.value;
-        // RegExp: Mínimo 8 caracteres, 1 minúscula, 1 mayúscula, 1 número y 1 carácter especial
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+        //Se utilizado la misma expresión regular que se utiliza en SignUp
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
         try {
             if (!password) {
                 throw new Error('New password is required');
             }
+            //Se ha modificado el mensaje de error para que sea concordante con la expresión regular.
             if (!passwordRegex.test(password)) {
-                throw new Error('Password must be at least 8 characters long, contain 1 uppercase, 1 lowercase, 1 number, and 1 special character.');
+                throw new Error('Password must have at least 8 characters, including uppercase, lowercase, numbers, and one special character.');
             }
             return true;
         } catch (error) {
@@ -98,31 +102,35 @@ export class ChangePasswordController {
     /**
      * Async handles form submission
      * @param {Event} e - Submit event
+     * @todo comentar todas las sentencias de al menos esta función
      */
     async handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault(); //Previene que se envíe el formulario por defecto
         e.stopPropagation();
 
-        const currentPass = this.currentPasswordInput.value;
-        const newPass = this.newPasswordInput.value;
-        const confirmPass = this.confirmPasswordInput.value;
+        const currentPass = this.currentPasswordInput.value; // Establece que el valor de la contraseña actual se obtenga del input (cuadro) en el que se escriba.
+        const newPass = this.newPasswordInput.value; //  Establece que el valor de la nueva contraseña se obtenga del input (cuadro) en el que se escriba.
+        const confirmPass = this.confirmPasswordInput.value; //  Establece que el valor de la confirmación/repetición de la nueva contraseña se obtenga del input (cuadro) en el que se escriba.
 
+        // Se asegura que el campo de contraseña actual no esté vacío y, si lo está, muestra el mensaje de error.
         if (!currentPass.trim()) {
             this.showFeedback('Current password is required', 'danger');
             return;
         }
+        // Detiene el flujo si no se ha cumplido con las validaciones de la nueva contraseña y la coincidencia de la misma.
         if (!this.validateNewPassword() || !this.validatePasswordMatch()) {
             return; 
         }
         this.setLoading(true);
         try {
-            const url = '/SignUpSignInApplication/webresources/entities.user/';
+            const url = '/SignUpSignInApplication/webresources/entities.user/'; //establece la conexión con nuestro lado servidor.
 
             // JSON object with the data to send in the request body
+            // Reconstruye el modelo User desde el almacenamiento de sesión.
              const user = new User ( 
                 sessionStorage.getItem("user.id"),
                 sessionStorage.getItem("user.zip"),
-                sessionStorage.getItem("user.phone"),
+                sessionStorage.getItem("user.phone"), 
                 sessionStorage.getItem("user.city"),
                 sessionStorage.getItem("user.email"),
                 sessionStorage.getItem("user.firstName"),
@@ -134,30 +142,37 @@ export class ChangePasswordController {
             );
             
            //const user = User.fromJSON(sessionStorage.getItem("user"));
-            if (currentPass !== user.password) {
-                throw new Error('Current password is incorrect.');
+            /* Verifica que la contraseña ingresada en el campo de currentPass sea la misma que el usuario ha utilizado para iniciar la sesión
+             y le envía un mensaje al usuario que la contraseña actual ingresada es incorrecta.*/
+            if (currentPass !== user.password) { 
+                throw new Error('Current password is incorrect.'); 
             }
-            user.password = newPass;
-            const response = await fetch(url+user.id, {
+            //
+            user.password = newPass; 
+            /* Pide al backend REST que haga el fetch utilizando el método PUT, mediante el cual reemplaza el campo
+            que se quiere modificar por la nueva contraseña utilizando JSON, clave-valor. */
+            const response = await fetch(url+user.id, { 
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(user) // The data travels hidden in the body
             });
-
-            if (!response.ok) {
-                throw new Error();
+            // Si la respuesta del servidor no es exitosa muestra el error.
+            if (!response.ok) { 
+                throw new Error(); 
             }
+            // Permite que el usuario pueda cambiar nuevamente la contraseña dentro de la misma sesión
             sessionStorage.setItem("user.password", newPass);
+            // Muestra el mensaje de éxito en el cambio de contraseña
             this.showFeedback('Password changed successfully!', 'success');
-
+            // Realiza la redirección a la página de inicio (page4.html) tras el cambio exitoso
             setTimeout(() => {
                 window.location.href = '/SignUpSignInApplication/html/page4.html';
             }, 2000);
 
         } catch (error) {
-            // Respuetsa cuando no hay conexión al backend REST
+            // Respuesta cuando hay error de validación o falla la conexión con el backend REST.
             this.showFeedback(error.message || 'Server connection error. Please try again later.', 'danger');
         } finally {
             this.setLoading(false);
