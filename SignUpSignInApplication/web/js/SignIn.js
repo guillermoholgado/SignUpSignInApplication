@@ -1,6 +1,10 @@
 import { User } from './user.js';
-
-class SignIn {
+   
+    /**
+    *@todo: al cargar la página (evento DOMContentLoaded) comprobar si está almacenado 
+    *el email de un usuario en el sessionStorage y cargarlo en el campo email del formulario.
+    */
+    class SignIn {
     constructor() {
     // Inicialización de elementos del DOM
     this.form = document.getElementById('loginForm');
@@ -13,7 +17,7 @@ class SignIn {
 
     this.emailError = document.getElementById('emailError');
     this.passwordError = document.getElementById('passwordError');
-
+             
     // Registro de Event Listeners
     this.form?.addEventListener('submit', (e) => this.handleSubmit(e));
 
@@ -101,7 +105,7 @@ class SignIn {
             if (!email || hasSpaces || !emailRegex.test(email)) {
                 throw new Error('(*) Enter a valid email address (e.g. name@domain.com)<br>(*) Do not enter spaces or invalid characters.');
             }
-
+            
             this.clearError('email');
             return true;
         } catch (error) {
@@ -222,5 +226,11 @@ class SignIn {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-    new SignIn();
+    const signIn = new SignIn();
+
+    // Si hay un email guardado en el sessionStorage, se carga en el campo email
+    const storedEmail = sessionStorage.getItem('user.email');
+    if (storedEmail && signIn.emailInput) {
+        signIn.emailInput.value = storedEmail;
+    }
 });

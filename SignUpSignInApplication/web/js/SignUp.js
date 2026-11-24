@@ -1,15 +1,24 @@
 /**
- * @todo: Importar clase User del modelo de datos.Usar un objeto de la clase User para encapsular 
+ * @todo (HECHO): Importar clase User del modelo de datos. Usar un objeto de la clase User para encapsular
  * los datos del nuevo usuario antes de registrarlo en lugar de la variable formData.
- * @todo: Después de un signup exitoso guardar en el sessionStorage el email para que lo cargue la página de sigIn.
- * 
- * 
+ * @todo (HECHO): Después de un signup exitoso guardar en el sessionStorage el email para que lo cargue la página de signIn.
  */
-import { User } from './user.js'; 
+import { User } from './user.js';
+
+console.log('SignUp.js cargado');
+
+// URL del servicio REST (la misma que usa SignIn.js)
+const USERS_URL = '/SignUpSignInApplication/webresources/entities.user';
 
 class SignUpController {
     constructor() {
-        this.form = document.querySelector('form');
+        // Busca el formulario por su id; si no lo tiene, usa el primer <form> de la página
+        this.form = document.getElementById('signUpForm') || document.querySelector('form');
+        if (!this.form) {
+            console.error('No se ha encontrado el formulario de registro');
+            return;
+        }
+
         this.firstNameInput = document.getElementById('firstName-form02-8');
         this.middleInitialInput = document.getElementById('middleIntial-form02-8');
         this.lastNameInput = document.getElementById('lastName-form02-8');
@@ -21,7 +30,7 @@ class SignUpController {
         this.emailInput = document.getElementById('email-form02-8');
         this.passwordInput = document.getElementById('password-form02-8');
         this.confirmPasswordInput = document.getElementById('confirmPassword-form02-8');
-        
+
         this.toggles = document.querySelectorAll('.toggle-password');
         this.submitButton = this.form.querySelector('button[type="submit"], input[type="submit"]');
         this.originalButtonText = this.submitButton ? this.submitButton.textContent : 'Sign up';
@@ -31,9 +40,9 @@ class SignUpController {
 
         // Eventos de FOCO (Click) -> Cambiar fondo a blanco (#ffffff)
         const allInputs = [
-            this.firstNameInput, this.middleInitialInput, this.lastNameInput, 
-            this.streetAddressInput, this.cityInput, this.stateInput, 
-            this.zipCodeInput, this.phoneInput, this.emailInput, 
+            this.firstNameInput, this.middleInitialInput, this.lastNameInput,
+            this.streetAddressInput, this.cityInput, this.stateInput,
+            this.zipCodeInput, this.phoneInput, this.emailInput,
             this.passwordInput, this.confirmPasswordInput
         ];
 
@@ -75,11 +84,11 @@ class SignUpController {
     showFieldError(inputElement, messages) {
         if (!inputElement) return;
         this.setRedBorder(inputElement);
-        
+
         const targetElement = inputElement.closest('.password-container') || inputElement;
         const parentContainer = targetElement.parentNode;
         if (!parentContainer) return;
-        
+
         // Evitar duplicados eliminando el error previo de este campo
         const existingError = parentContainer.querySelector(`[data-error-for="${inputElement.id}"]`);
         if (existingError) {
@@ -103,7 +112,7 @@ class SignUpController {
     clearError(inputElement) {
         if (!inputElement) return;
         inputElement.style.borderColor = '';
-        
+
         const targetElement = inputElement.closest('.password-container') || inputElement;
         const parentContainer = targetElement.parentNode;
         if (parentContainer) {
@@ -116,8 +125,9 @@ class SignUpController {
 
     // ENVÍO ASÍNCRONO DEL FORMULARIO
     async handleFormSubmit(e) {
+        // Evita que el navegador envíe el formulario por su cuenta (eso provocaba el error 415)
         e.preventDefault();
-        const newUser = this.emailInput.value;
+
         // Ejecutamos todas las validaciones antes de enviar
         this.validateFirstName();
         this.validateMiddleInitial();
@@ -136,26 +146,27 @@ class SignUpController {
             return;
         }
 
-        const user = new User( 
-            null, // id 
-            this.zipCodeInput.value.trim(), 
-            this.phoneInput.value.trim(), 
-            this.cityInput.value.trim(), 
-            this.emailInput.value.trim(), 
-            this.firstNameInput.value.trim(),
-            this.lastNameInput.value.trim(), 
-            this.middleInitialInput.value.trim(), 
-            this.passwordInput.value.trim(), 
-            this.stateInput.value.trim(), 
-            this.streetAddressInput.value.trim() 
-        ); 
+        // TODO 1: los datos del nuevo usuario se encapsulan en un objeto User
+        const user = new User(
+            null,                                    // id
+            this.zipCodeInput.value.trim(),          // zip
+            this.phoneInput.value.trim(),            // phone
+            this.cityInput.value.trim(),             // city
+            this.emailInput.value.trim(),            // email
+            this.firstNameInput.value.trim(),        // firstName
+            this.lastNameInput.value.trim(),         // lastName
+            this.middleInitialInput.value.trim(),    // middleInitial
+            this.passwordInput.value.trim(),         // password
+            this.stateInput.value.trim(),            // state
+            this.streetAddressInput.value.trim()     // street
+        );
 
         if (this.submitButton) {
             this.submitButton.disabled = true;
         }
 
         try {
-            const response = await fetch(this.form.action, {
+            const response = await fetch(USERS_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -183,9 +194,11 @@ class SignUpController {
                 return;
             }
 
-            // Si la respuesta es exitosa (response.ok)
+            // TODO 2: signup correcto -> se guarda el email con la misma clave que lee SignIn.js
+            sessionStorage.setItem("user.email", user.email);
+
             alert('User created successfully');
-            sessionStorage.setItem("user.email",newUser);
+            // Va a la página de Sign In, que cargará el email automáticamente
             window.location.href = 'page1.html';
 
         } catch (error) {
@@ -198,7 +211,7 @@ class SignUpController {
             }
         }
     }
-   
+
     // VALIDACIONES ESPECÍFICAS
     validateFirstName() {
         const regex = /^[A-Za-z\s]+$/;
@@ -318,22 +331,22 @@ class SignUpController {
     }
 
     togglePassword(e) {
-    const container = e.currentTarget.closest('.password-container');
-    const input = container ? container.querySelector('input') : null;
-    const slashLine = container ? container.querySelector('.eye-slash-line') : null;
+        const container = e.currentTarget.closest('.password-container');
+        const input = container ? container.querySelector('input') : null;
+        const slashLine = container ? container.querySelector('.eye-slash-line') : null;
 
-    if (input) {
-        const isHidden = input.type === 'password';
-        
-        // Cambia entre visible ('text') y oculta ('password')
-        input.type = isHidden ? 'text' : 'password';
+        if (input) {
+            const isHidden = input.type === 'password';
 
-        // Muestra u oculta la línea tachada del SVG
-        if (slashLine) {
-            slashLine.style.display = isHidden ? 'none' : 'inline';
+            // Cambia entre visible ('text') y oculta ('password')
+            input.type = isHidden ? 'text' : 'password';
+
+            // Muestra u oculta la línea tachada del SVG
+            if (slashLine) {
+                slashLine.style.display = isHidden ? 'none' : 'inline';
+            }
         }
     }
-}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
