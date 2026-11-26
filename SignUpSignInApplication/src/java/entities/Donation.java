@@ -160,7 +160,12 @@ public class Donation implements Serializable {
     public void setDonorId(Donor donorId) {
         this.donorId = donorId;
     }
-
+    @jakarta.persistence.PrePersist 
+    protected void onCreate() { 
+            if (this.createdAt == null) { 
+                this.createdAt = new Date(); 
+            } 
+    }  
     @Override
     public int hashCode() {
         int hash = 0;
