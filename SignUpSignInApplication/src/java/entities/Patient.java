@@ -4,6 +4,7 @@
  */
 package entities;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -108,7 +109,7 @@ public class Patient implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
+    @JsonbTransient
     @XmlTransient
     public Collection<Appointment> getAppointmentCollection() {
         return appointmentCollection;

@@ -4,6 +4,8 @@
  */
 package entities;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +23,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -105,7 +108,7 @@ public class Appointment implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-
+    @JsonbTransient
     public Date getTime() {
         return time;
     }
@@ -145,7 +148,8 @@ public class Appointment implements Serializable {
     public void setPatientId(Patient patientId) {
         this.patientId = patientId;
     }
-
+    @JsonbTransient
+    @XmlTransient
     public Therapist getTherapistId() {
         return therapistId;
     }
