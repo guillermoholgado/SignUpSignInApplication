@@ -5,6 +5,7 @@
 package entities;
 
 import jakarta.json.bind.annotation.JsonbDateFormat;
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -112,7 +113,13 @@ public class Appointment implements Serializable {
     public Date getTime() {
         return time;
     }
-
+    @JsonbProperty("time")
+    public String getTimeAsJson() {
+        if (this.time == null) {
+            return null;
+        }
+        return this.time.toString();
+    }
     public void setTime(Date time) {
         this.time = time;
     }
